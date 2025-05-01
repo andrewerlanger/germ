@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+
+require "germ"
+require "dotenv"
+
+if ARGV.empty?
+  puts "Usage: bin/germ URL"
+  puts "Example: bin/germ https://www.example.com/article"
+  exit 1
+end
+
+root = File.expand_path("..", __dir__)
+Dotenv.load(File.join(root, ".env"))
+Germ::Conductor.call(ARGV.first)
