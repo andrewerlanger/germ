@@ -44,10 +44,14 @@ module Germ
     end
 
     def build_prompt(content)
-      example = File.read(File.expand_path("../../example.html", __dir__))
-      user_prompt = File.read(File.expand_path("../../user_prompt.md", __dir__))
+      encoding = "UTF-8"
+      user_prompt = File.read(File.expand_path("../../user_prompt.md", __dir__), encoding:)
+
+      content = content.force_encoding(encoding)
       user_prompt = user_prompt.gsub("{{ CONTENT }}", content)
-      user_prompt = user_prompt.gsub("{{ EXAMPLE }}", example)
+
+      example = File.read(File.expand_path("../../example.html", __dir__), encoding:)
+      user_prompt.gsub("{{ EXAMPLE }}", example)
     end
 
     def generate_xhtml(user_prompt)
